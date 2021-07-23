@@ -29,6 +29,7 @@
     var red = Math.floor(Math.random() * 255);
     var green = Math.floor(Math.random() * 255);
     var blue = Math.floor(Math.random() * 255);
+    const urlParams = new URLSearchParams(window.location.search);
 
     paths[uid] = new paper.Path();
     paths[uid].strokeColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
@@ -50,7 +51,7 @@
         var received = JSON.parse(receivedMessage.data);
         //console.log(JSON.parse(received.color));
         // You will probably want to add some code here to draw more lines.
-        if(received.uid != uid){
+        if(received.uid != uid && urlParams.get('size') != "small"){
           if (paths[received.uid] == undefined) {
             paths[received.uid] = new paper.Path();
             console.log(received.color);
