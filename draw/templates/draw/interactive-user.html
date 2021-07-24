@@ -1,0 +1,211 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>interactive-user</title>
+
+    <link rel="stylesheet" href="../../static/draw/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+
+      body {
+    				background-image: linear-gradient(#927ffc, #6584ff, #81fffd);
+    				height: 100vh;
+    				margin: 0;
+    				padding: 0;
+    				font-family: ‘Quicksand’, sans-serif;
+    		}
+
+      h1 {
+        color : white;
+        font-size: 9em;
+  			text-align: center;
+  			margin-top: 50%;
+        margin-bottom : 40%;
+  			display: inline-block;
+      }
+
+      .warning {
+        color : white;
+        font-size: 3em;
+
+      }
+
+      input{
+  			background-color: transparent;
+  			border: none;
+  			color : white;
+  			font-size: 3em;
+  			letter-spacing: 20px;
+        text-align : center;
+  		}
+  		::placeholder{
+  			color:white
+  		}
+
+  		.tables{
+  			margin-top: 8%;
+  			margin-bottom: 2%;
+  		}
+
+
+
+  		#btn_style1{
+  			border: 1px solid white;
+  			background-color: transparent;
+  			padding : 2% 13%;
+  			font-size:2.5em;
+  			margin-bottom: 1%
+  		}
+
+  		a{
+  			color :white;
+  			text-decoration: none;
+
+  		}
+  		.btnn{
+  			text-align: center;
+        margin-top : 13%
+  		}
+
+
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+
+      /* Modal Content */
+      .modal-content {
+        background-color: #fefefe;
+        margin: 30% 10%;
+        padding-top: 20%;
+        padding-bottom : 20%;
+        border: 1px solid #888;
+        width: 80%;
+        opacity : 0.92;
+        font-weight : bold;
+        letter-spacing: 7px;
+      }
+
+      /* The Close Button */
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #myBtn {
+        border: 1px solid white;
+        background-color: transparent;
+        padding : 2% 13%;
+        font-size:2.5em;
+        margin-bottom: 1%;
+        color : white;
+      }
+      #message{
+        font-size : 3.5em;
+        text-align : center;
+        margin-bottom : 30%;
+      }
+
+      #message2{
+        font-size : 2.5em;
+        text-align : center;
+      }
+
+    </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <h1>Travel Scheduler</h1>
+    </div>
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class ="tables">
+				<table align="center" height="80" width="100%" border="0" style="border-bottom: solid 2px white; margin-top:4%">
+	         <tr>
+	              <td><input id="input-code" type="text" name="id" value="" placeholder="Your Code Here" style="height:80px; width:100%;"></td>
+	         </tr>
+	  	 </table>
+    </div>
+    <div class = "btnn pop_connect col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <button id="myBtn">Connect</button>
+    </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="message">Welcome To Travel Scheduler</p>
+    <p id="message2">Pushed a connect request to Main device..<p>
+  </div>
+
+</div>
+
+
+</body>
+<script>
+  var uid = Date.now() % 10000;
+  // Get the modal
+  var modal = document.getElementById("myModal");
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  var ws_socket = new WebSocket('ws://' + window.location.host + '/ws/draw');
+
+  var input_code = document.getElementById("input-code")
+
+  ws_socket.onmessage = function(receivedMessage) {
+      var received = JSON.parse(receivedMessage.data);
+
+      if (received.msg_type == "phase1" && received.result == "success") {
+        // go to next page
+        window.location.href = "interactive-user2?uid=" + uid;
+      }
+  }
+
+  // When the user clicks the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+    var msg = "{\"msg_type\": \"register\" , \"uid\" : " + uid + ", \"code\" : \"" + input_code.value + "\"}";
+    ws_socket.send(msg);
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+</html>

@@ -1,0 +1,273 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>interactive-user</title>
+
+    <link rel="stylesheet" href="../../static/draw/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+
+    <style type="text/css">
+
+      body {
+    				background-image: linear-gradient(#927ffc, #6584ff, #81fffd);
+    				height: 100vh;
+    				margin: 0;
+    				padding: 0;
+    				font-family: ‘Quicksand’, sans-serif;
+    		}
+
+      h1 {
+        color : white;
+        font-size: 4.5em;
+  			margin-top: 15%;
+        margin-bottom : 5%;
+  			display: inline-block;
+      }
+
+      input{
+  			background-color: transparent;
+  			border: none;
+  			color : white;
+  			font-size: 2.5em;
+  			letter-spacing: 2px;
+        text-align : center;
+        border-bottom: solid 2px white;
+  		}
+  		::placeholder{
+  			color:white
+  		}
+
+  		.tables{
+  			margin-top: 8%;
+  			margin-bottom: 2%;
+  		}
+
+
+
+  		#btn_style1{
+  			border: 1px solid white;
+  			background-color: transparent;
+  			padding : 2% 13%;
+  			font-size:2.5em;
+  			margin-bottom: 1%;
+        color:white;
+  		}
+
+  		a{
+  			color :white;
+  			text-decoration: none;
+
+  		}
+  		.btnn{
+  			text-align: center;
+        margin-top : 13%
+  		}
+      .main-text{
+        color : white;
+        letter-spacing :5px;
+        font-size : 3em;
+        margin-top : 5%;
+        border-bottom: 2px white solid;
+        border-right: 7px white solid;
+      }
+
+      .sche-content-t{
+        color : white;
+        letter-spacing :3px;
+        font-size : 2em;
+        margin-left : 2%;
+      }
+      .sche-content-a{
+        color : white;
+        letter-spacing :3px;
+        font-size : 2em;
+        margin-left : 2%;
+      }
+      .rp-content{
+        color : white;
+        letter-spacing :3px;
+        font-size : 2em;
+        margin-left : 2%;
+      }
+
+      .main-text2{
+        color : white;
+        letter-spacing :5px;
+        font-size : 3em;
+        margin-top : 5%;
+        text-align : center;
+        border: 3px white solid;
+
+      }
+      .request{
+        margin-top:10%;
+      }
+      #div_time{
+        float:left;
+      }
+      #div_activity{
+        float:left;
+      }
+
+
+    </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <h1 class="first-head">WELCOME ANON</h1>
+      <h1 class="final-head" style="display:none;">Final Group Schedule</h1>
+    </div>
+
+    <div class ="schedule col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <p class = "main-text">Schedule</p>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4" id ="div_time" >
+          <p class ="sche-content-t"></p>
+          </div>
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8" id ="div_activity">
+            <p class ="sche-content-a"></p>
+          </div>
+    </div>
+
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="div_pre" style = "display:inline-block;">
+      <p class = "main-text">Restrictions/Preferences</p>
+      <p class = "rp-content"></p>
+    </div>
+
+    <br>
+
+    <div class="request">
+      <div class ="sche-request col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <p class = "main-text2">Scehdule Request</p>
+        <div class ="tables">
+  				<table align="center" height="80" width="100%" border="0" style=" margin-top:4%">
+  	         <tr>
+                  <td><input id="input_time" type="text" name="id" value="" placeholder="Time" style="height:80px; width:100%;"></td>
+  	              <td><input id="input_activity" type="text" name="id" value="" placeholder="Activity/Location" style="height:80px; width:99%; margin-left:1%;"></td>
+  	         </tr>
+  	  	 </table>
+      </div>
+      </div>
+
+      <div class ="sche-request col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class ="tables">
+  				<table align="center" height="80" width="100%" border="0" style=" margin-top:4%">
+  	         <tr>
+                  <td><input id="input_pre" type="text" name="id" value="" placeholder="Restrictions/Preferences" style="height:80px; width:100%;"></td>
+  	         </tr>
+  	  	 </table>
+      </div>
+      </div>
+
+      <div class = "btnn col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <button id ="btn_style1">ADD</button>
+      </div>
+    </div>
+</body>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  var uid = urlParams.get('uid');
+  var ws_socket = new WebSocket('ws://' + window.location.host + '/ws/draw');
+
+  $(document).ready(function(){
+
+  });
+
+  var add_btn = document.getElementById("btn_style1");
+  add_btn.onclick = function() {
+    var time = document.getElementById("input_time");
+    var activity = document.getElementById("input_activity");
+    var preferences = document.getElementById("input_pre");
+
+    if (time.value != "" && activity.value != "") {
+      var div_time = document.getElementById("div_time");
+      var div_activity = document.getElementById("div_activity");
+
+      var tnew_time = document.createElement("p");
+      var tnew_activity = document.createElement("p");
+
+      var new_time = document.createTextNode(time.value);
+      var new_activity = document.createTextNode(activity.value);
+
+      tnew_time.classList.add('sche-content-t');
+      tnew_time.appendChild(new_time);
+      div_time.appendChild(tnew_time);
+
+      tnew_activity.classList.add('sche-content-a');
+      tnew_activity.appendChild(new_activity);
+      div_activity.appendChild(tnew_activity);
+    }
+
+    if (preferences.value != "") {
+      var div_pre = document.getElementById("div_pre");
+      var tnew_pre = document.createElement("p");
+      var new_pre = document.createTextNode(preferences.value);
+
+      tnew_pre.classList.add('rp-content');
+      tnew_pre.appendChild(new_pre);
+      div_pre.appendChild(tnew_pre);
+    }
+
+    msg = "{\"msg_type\" : \"request\", \"uid\" : " + uid + ", \"time\" : \"" + time.value + "\", \"activity\" : \"" + activity.value + "\", \"pref\" : \"" + preferences.value + "\"}";
+    ws_socket.send(msg);
+
+    time.value = "";
+    activity.value = "";
+    preferences.value = "";
+  };
+
+  ws_socket.onmessage = function(receivedMessage) {
+      var received = JSON.parse(receivedMessage.data);
+
+      if (received.msg_type == "phase2") {
+        var aggr_schedule = received.schedule;
+        var aggr_preferences = received.preferences;
+
+        var div_time = document.getElementById("div_time");
+        var div_activity = document.getElementById("div_activity");
+        var div_pre = document.getElementById("div_pre");
+
+        div_time.innerHTML = "<p class =\"sche-content-t\"></p>";
+        div_activity.innerHTML = "<p class =\"sche-content-a\"></p>";
+        div_pre.innerHTML = "<p class = \"main-text\">Restrictions/Preferences</p><p class = \"rp-content\"></p>";
+
+        for (let t in aggr_schedule) {
+          var tnew_time = document.createElement("p");
+          var tnew_activity = document.createElement("p");
+
+          var new_time = document.createTextNode(t);
+          var new_activity = document.createTextNode(aggr_schedule[t]);
+
+          tnew_time.classList.add('sche-content-t');
+          tnew_time.appendChild(new_time);
+          div_time.appendChild(tnew_time);
+
+          tnew_activity.classList.add('sche-content-a');
+          tnew_activity.appendChild(new_activity);
+          div_activity.appendChild(tnew_activity);
+        }
+
+        var prefLen = aggr_preferences.length;
+        for (var i = 0; i < prefLen; i++) {
+          var tnew_pre = document.createElement("p");
+          var new_pre = document.createTextNode(aggr_preferences[i]);
+
+          tnew_pre.classList.add('rp-content');
+          tnew_pre.appendChild(new_pre);
+          div_pre.appendChild(tnew_pre);
+        }
+        $(".request").hide();
+        $(".first-head").hide();
+        $(".final-head").show();
+      }
+
+
+  }
+</script>
+</html>
