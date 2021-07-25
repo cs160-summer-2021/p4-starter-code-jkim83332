@@ -1,0 +1,431 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>interactive-big2</title>
+
+    <link rel="stylesheet" href="../../static/draw/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'draw/vendor/bootstrap/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'draw/vendor/jquery/jquery-3.3.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+
+      body {
+            background-image: linear-gradient(#927ffc, #6584ff, #81fffd);
+            height: 100vh;
+    				margin: 0;
+    				padding: 0;
+    				font-family: 'Quicksand', sans-serif;
+    		}
+
+      h1 {
+        color : white;
+        font-size: 6em;
+  			text-align: center;
+  			margin-top: 10%;
+        margin-bottom : 10%;
+  			display: inline-block;
+        padding-left: 35%;
+      }
+      .frame{
+        float:left;
+        background-color : lightgray;
+        height : 400px;
+        margin : 0 4%;
+        margin-bottom : 4%;
+        border-radius: 20px;
+        filter: drop-shadow();
+      }
+      .phase3{
+        float:left;
+        background-color : lightgray;
+        height : 400px;
+        margin : 0 38%;
+        margin-bottom : 4%;
+      }
+
+      #myBtn #myBtn2{
+        border: 1px solid black;
+        background-color: transparent;
+        padding : 2% 13%;
+        font-size:2.5em;
+        color : black;
+        margin-bottom: 1%;
+      }
+
+      a{
+        color :white;
+        text-decoration: none;
+
+      }
+
+      .user_status{
+        text-align : center;
+        color : red;
+        font-weight :  bold;
+        font-size : 1.5em;
+        margin-top: 20px;
+      }
+
+      .user_ins{
+        font-size : 1em;
+        text-align: center;
+      }
+      .user_code{
+        font-size : 2em;
+        font-weight: bold;
+        text-align : center;
+
+      }
+
+      div.phase2{
+        display: none;
+      }
+      .Users{
+        text-align: center;
+        font-size:1.5em;
+        font-weight: bold;
+      }
+
+      .main-text {
+        font-weight: bold;
+      }
+
+      .sche-content-t{
+        margin-left : 2%;
+      }
+      .sche-content-a{
+        margin-left : 2%;
+      }
+      .rp-content{
+        margin-left : 2%;
+      }
+
+      .dt{
+        float:left;
+      }
+      .da{
+        float:left;
+      }
+
+    </style>
+
+</head>
+<body>
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <h1>Today Together</h1>
+    </div>
+    <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="display:inline-block;">
+      <div class ="frame col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="phase1">
+          <p id="user1_status" class="user_status">No User Connected</p>
+          <p class="user_ins">  Please Input the Code Below into your phone app to connect to the group application:</p>
+          <p id="user1_code" class="user_code"> Code : XXXX</p>
+        </div>
+        <div class="phase2">
+          <p class ="Users">User 1</p>
+          <div class ="schedule col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class = "main-text">Schedule</p>
+              <div class="dt col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4" id ="user1_div_time" >
+                <p class ="sche-content-t"></p>
+                </div>
+                <div class="da col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8" id ="user1_div_activity">
+                  <p class ="sche-content-a"></p>
+                </div>
+          </div>
+
+          <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="user1_div_pre" style = "display:inline-block;">
+            <p class = "main-text">Restrictions/Preferences</p>
+            <p class = "rp-content"></p>
+          </div>
+        </div>
+      </div>
+      <div class ="frame col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="phase1">
+          <p id="user2_status" class="user_status">No User Connected</p>
+          <p class="user_ins">  Please Input the Code Below into your phone app to connect to the group application:</p>
+          <p id="user2_code" class="user_code"> Code : XXXX</p>
+        </div>
+        <div class="phase2">
+          <p class ="Users">User 2</p>
+          <div class ="schedule col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class = "main-text">Schedule</p>
+              <div class="dt col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4" id ="user2_div_time" >
+                <p class ="sche-content-t"></p>
+                </div>
+                <div class="da col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8" id ="user2_div_activity">
+                  <p class ="sche-content-a"></p>
+                </div>
+          </div>
+
+          <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="user2_div_pre" style = "display:inline-block;">
+            <p class = "main-text">Restrictions/Preferences</p>
+            <p class = "rp-content"></p>
+          </div>
+        </div>
+      </div>
+      <div class ="frame col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <div class="phase1">
+          <p id="user3_status" class="user_status">No User Connected</p>
+          <p class="user_ins">  Please Input the Code Below into your phone app to connect to the group application:</p>
+          <p id="user3_code" class="user_code"> Code : XXXX</p>
+        </div>
+        <div class="phase2">
+          <p class ="Users">User 3</p>
+          <div class ="schedule col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p class = "main-text">Schedule</p>
+              <div class="dt col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4" id ="user3_div_time" >
+                <p class ="sche-content-t"></p>
+                </div>
+                <div class="da col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8" id ="user3_div_activity">
+                  <p class ="sche-content-a"></p>
+                </div>
+          </div>
+
+          <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="user3_div_pre" style = "display:inline-block;">
+            <p class = "main-text">Restrictions/Preferences</p>
+            <p class = "rp-content"></p>
+          </div>
+        </div>
+      </div>
+      <div class ="phase3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" style="display:none;">
+        <p class ="Users">Final Schedule</p>
+        <div class ="schedule col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <p class = "main-text">Schedule</p>
+            <div class="dt col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4" id ="aggr_div_time" >
+              <p class ="sche-content-t"></p>
+              </div>
+              <div class="da col-xl-8 col-lg-8 col-md-8 col-sm-8 col-xs-8" id ="aggr_div_activity">
+                <p class ="sche-content-a"></p>
+              </div>
+        </div>
+
+        <div class ="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="aggr_div_pre" style = "display:inline-block;">
+          <p class = "main-text">Restrictions/Preferences</p>
+          <p class = "rp-content"></p>
+        </div>
+      </div>
+    </div>
+    <div class ="row">
+      <div class = "col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" style = "text-align : center;">
+        <button id="myBtn">Connect</button>
+        <button id="myBtn2" style="display:none;">Generate</button>
+        <button id="myBtn3" style="display:none;">Generate Random Schedule</button>
+      </div>
+    </div>
+
+</body>
+<script>
+  var join_code;
+  var user_indicies = [];
+  var global_user_index = 1;
+  var ws_socket = new WebSocket('ws://' + window.location.host + '/ws/draw');
+  var aggr_schedule = {};
+  var aggr_preferences = [];
+
+  ws_socket.onmessage = function(receivedMessage) {
+      var received = JSON.parse(receivedMessage.data);
+
+      if (received.msg_type == "register") {
+        if (join_code == received.code) {
+          var local_index = global_user_index++;
+          var user_text = "user" + local_index;
+
+          user_indicies.push(received.uid);
+          var user_status = document.getElementById(user_text + "_status").innerHTML = "Connected";
+          $("#" + user_text + "_status").css("color","green");
+        }
+      } else if (received.msg_type == "request") {
+        var user_text;
+
+        for (let i = 0 ; i < user_indicies.length; i++) {
+          if (user_indicies[i] == received.uid) {
+            user_text = "user" + (i+1);
+          }
+        }
+
+        if (received.time != "" && received.activity != "") {
+          var div_time = document.getElementById(user_text + "_div_time");
+          var div_activity = document.getElementById(user_text + "_div_activity");
+
+          var tnew_time = document.createElement("p");
+          var tnew_activity = document.createElement("p");
+
+          var new_time = document.createTextNode(received.time);
+          var new_activity = document.createTextNode(received.activity);
+
+          tnew_time.classList.add('sche-content-t');
+          tnew_time.appendChild(new_time);
+          div_time.appendChild(tnew_time);
+
+          tnew_activity.classList.add('sche-content-a');
+          tnew_activity.appendChild(new_activity);
+          div_activity.appendChild(tnew_activity);
+
+          if (aggr_schedule[received.time] == undefined) {
+            aggr_schedule[received.time] = received.activity;
+          }
+        }
+
+        if (received.pref != "") {
+          var div_pre = document.getElementById(user_text + "_div_pre");
+          var tnew_pre = document.createElement("p");
+          var new_pre = document.createTextNode(received.pref);
+
+          tnew_pre.classList.add('rp-content');
+          tnew_pre.appendChild(new_pre);
+          div_pre.appendChild(tnew_pre);
+
+          aggr_preferences.push(received.pref);
+        }
+      }
+  }
+
+  var btn = document.getElementById("myBtn");
+  // When the user clicks the button, open the modal
+  btn.onclick = function() {
+    var msg = "{\"msg_type\" : \"phase1\", \"result\" : \"success\", \"user_indicies\" : " + JSON.stringify(user_indicies) + "}";
+    ws_socket.send(msg);
+    $(".phase1").hide();
+    $("#myBtn").hide();
+    $(".phase2").show();
+    $("#myBtn2").show();
+  }
+
+  var btn_generate = document.getElementById("myBtn2");
+  btn_generate.onclick = function() {
+    $(".frame").hide();
+    $(".phase3").show();
+
+    var msg = "{\"msg_type\" : \"phase2\", \"schedule\" : " + JSON.stringify(aggr_schedule) + ", \"preferences\" : " + JSON.stringify(aggr_preferences) + "}";
+    ws_socket.send(msg);
+
+    for (let t in aggr_schedule) {
+      var div_time = document.getElementById("aggr_div_time");
+      var div_activity = document.getElementById("aggr_div_activity");
+
+      var tnew_time = document.createElement("p");
+      var tnew_activity = document.createElement("p");
+
+      var new_time = document.createTextNode(t);
+      var new_activity = document.createTextNode(aggr_schedule[t]);
+
+      tnew_time.classList.add('sche-content-t');
+      tnew_time.appendChild(new_time);
+      div_time.appendChild(tnew_time);
+
+      tnew_activity.classList.add('sche-content-a');
+      tnew_activity.appendChild(new_activity);
+      div_activity.appendChild(tnew_activity);
+    }
+
+    var prefLen = aggr_preferences.length;
+    for (var i = 0; i < prefLen; i++) {
+      var div_pre = document.getElementById("aggr_div_pre");
+      var tnew_pre = document.createElement("p");
+      var new_pre = document.createTextNode(aggr_preferences[i]);
+
+      tnew_pre.classList.add('rp-content');
+      tnew_pre.appendChild(new_pre);
+      div_pre.appendChild(tnew_pre);
+    }
+
+    $("#myBtn2").hide();
+    $("#myBtn3").hide();
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  var btn_random = document.getElementById("myBtn3");
+  btn_random.onclick = function() {
+    $(".frame").hide();
+    $(".phase3").show();
+
+    aggr_schedule = {};
+    aggr_preferences = ["None"];
+    var randomTimes = ["10am", "11am", "12pm", "1pm", "2pm", "3pm"];
+    var randomTimeLen = randomTimes.length;
+    var randomActivities = ["swimming",
+      "Central Park",
+      "MOMA",
+      "Musical in Broadway",
+      "River Cruise",
+      "Time Square",
+      "Financial District",
+      "Dumbo at Brooklyn",
+      "Mahattan skyline from NJ"];
+    var randomActivitiesLen = randomActivities.length;
+
+    shuffleArray(randomActivities);
+
+    for (var i = 0; i < randomTimeLen; i++) {
+      aggr_schedule[randomTimes[i]] = randomActivities[i];
+    }
+    aggr_schedule["12pm"] = "Lunch";
+
+    var msg = "{\"msg_type\" : \"phase2\", \"schedule\" : " + JSON.stringify(aggr_schedule) + ", \"preferences\" : " + JSON.stringify(aggr_preferences) + "}";
+    ws_socket.send(msg);
+
+    for (let t in aggr_schedule) {
+      var div_time = document.getElementById("aggr_div_time");
+      var div_activity = document.getElementById("aggr_div_activity");
+
+      var tnew_time = document.createElement("p");
+      var tnew_activity = document.createElement("p");
+
+      var new_time = document.createTextNode(t);
+      var new_activity = document.createTextNode(aggr_schedule[t]);
+
+      tnew_time.classList.add('sche-content-t');
+      tnew_time.appendChild(new_time);
+      div_time.appendChild(tnew_time);
+
+      tnew_activity.classList.add('sche-content-a');
+      tnew_activity.appendChild(new_activity);
+      div_activity.appendChild(tnew_activity);
+    }
+
+    var prefLen = aggr_preferences.length;
+    for (var i = 0; i < prefLen; i++) {
+      var div_pre = document.getElementById("aggr_div_pre");
+      var tnew_pre = document.createElement("p");
+      var new_pre = document.createTextNode(aggr_preferences[i]);
+
+      tnew_pre.classList.add('rp-content');
+      tnew_pre.appendChild(new_pre);
+      div_pre.appendChild(tnew_pre);
+    }
+
+    $("#myBtn2").hide();
+    $("#myBtn3").hide();
+  }
+
+  function generateCode() {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < 4; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  $(document).ready(function(){
+    join_code = generateCode();
+    document.getElementById("user1_code").innerHTML = "Code: " + join_code;
+    document.getElementById("user2_code").innerHTML = "Code: " + join_code;
+    document.getElementById("user3_code").innerHTML = "Code: " + join_code;
+  });
+</script>
+</html>

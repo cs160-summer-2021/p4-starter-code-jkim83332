@@ -13,6 +13,9 @@ def interactive_user_2(request):
 def interactive_big(request):
     return render(request, 'draw/interactive-big.html')
 
+def interactive_big2(request):
+    return render(request, 'draw/interactive-big2.html')    
+
 def room(request, room_name):
     return render(request, 'draw/room.html', {
         'room_name': room_name
