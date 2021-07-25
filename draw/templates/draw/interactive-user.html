@@ -12,7 +12,7 @@
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style type="text/css">
 
       body {
@@ -187,7 +187,10 @@
 
       if (received.msg_type == "phase1" && received.result == "success") {
         // go to next page
-        window.location.href = "interactive-user2?uid=" + uid;
+
+        if (received.user_indicies.includes(uid)) {
+          window.location.href = "interactive-user2?uid=" + uid;
+        }
       }
   }
 

@@ -12,7 +12,7 @@
     <script type="text/javascript" src="{% static 'draw/vendor/paper/paper-full.min.js' %}"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style type="text/css">
 
@@ -81,7 +81,7 @@
         font-size : 2em;
         font-weight: bold;
         text-align : center;
-        
+
       }
 
       div.phase2{
@@ -290,7 +290,7 @@
   var btn = document.getElementById("myBtn");
   // When the user clicks the button, open the modal
   btn.onclick = function() {
-    var msg = "{\"msg_type\" : \"phase1\", \"result\" : \"success\"}";
+    var msg = "{\"msg_type\" : \"phase1\", \"result\" : \"success\", \"user_indicies\" : " + JSON.stringify(user_indicies) + "}";
     ws_socket.send(msg);
     $(".phase1").hide();
     $("#myBtn").hide();
